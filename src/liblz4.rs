@@ -5,7 +5,7 @@ use std::io::ErrorKind;
 use std::str;
 use std::ffi::CStr;
 
-use libc::{c_void, c_char, c_uint, size_t};
+use libc::{c_void, c_char, c_uint, c_int, size_t};
 
 pub type LZ4FCompressionContext = *mut c_void;
 
@@ -326,6 +326,16 @@ extern "C" {
     // LZ4_stream_t* LZ4_createStream(void)
     pub fn LZ4_createStream() -> *mut LZ4StreamEncode;
 
+    // int LZ4_compress_default(const char* source,
+    //                          char* dest,
+    //                          int sourceSize,
+    //                          int maxDestSize)
+    pub fn LZ4_compress_default(source: *const u8,
+                                dest: *mut u8,
+                                input_size: c_int,
+                                max_dest_size: c_int)
+                                -> c_int;
+
     // int LZ4_compress_continue(LZ4_stream_t* LZ4_streamPtr,
     //                           const char* source,
     //                           char* dest,
@@ -341,6 +351,16 @@ extern "C" {
 
     // LZ4_streamDecode_t* LZ4_createStreamDecode(void)
     pub fn LZ4_createStreamDecode() -> *mut LZ4StreamDecode;
+
+    // int LZ4_decompress_safe(const char* source,
+    //                         char* dest,
+    //                         int compressedSize,
+    //                         int maxDecompressedSize)
+    pub fn LZ4_decompress_safe(source: *const u8,
+                               dest: *mut u8,
+                               compressed_size: c_int,
+                               max_decompressed_size: c_int)
+                               -> c_int;
 
     // int LZ4_decompress_safe_continue(LZ4_streamDecode_t* LZ4_streamDecode,
     //                                  const char* source,

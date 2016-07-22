@@ -1,6 +1,8 @@
 extern crate libc;
+extern crate byteorder;
 
 pub mod liblz4;
+pub mod block;
 
 mod decoder;
 mod encoder;
